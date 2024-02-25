@@ -1,11 +1,10 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { Action } from 'element-plus'
-import { ElMessage, ElMessageBox } from 'element-plus'
+import { ElMessageBox } from 'element-plus'
 import axios from 'axios'
-import { useUserStore } from '@/stores/user';
+import { useUserStore } from '@/stores/user'
+import { LoginUser } from '../api/user/index'
 
-const token = ref('')
 
 // do not use same name with ref
 const form = reactive({
@@ -17,25 +16,18 @@ const open = () => {
   ElMessageBox.alert('请输入正确密码和账户', '错误!')
 }
 
-const onSubmit = () => {
+const onSubmit = async () => {
   if (form.username === "" || form.password === "") {
     open()
     return
   }
-  axios.post(import.meta.env.VITE_BACKEND_URL + "/api/v1/user/login", {
-    "user_name": form.username,
-    "password": form.password
-  })
-  .then(function (response) {
-    const token = response.data.data.token
-    useUserStore().setToken(token)
-    console.log(useUserStore().userToken);
-  })
+  const res = await LoginUser(form)
+  console.log(res.username);
+  useUserStore().setToken(res.token)
 }
 
 const testSubmit = () => {
     useUserStore().getUserInfo()
-    console.log(useUserStore().$state.userInfo);
 }
 
 const getTokenVal = () => {
@@ -45,6 +37,7 @@ const getTokenVal = () => {
 const logout = () => {
   useUserStore().logoutUser()
 }
+
 
 </script>
 

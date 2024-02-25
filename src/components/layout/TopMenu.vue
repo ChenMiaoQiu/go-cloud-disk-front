@@ -1,3 +1,20 @@
+<script lang="ts" setup>
+import { useUserStore } from '@/stores/user';
+import { ref, watch } from 'vue';
+const user = useUserStore()
+user.getUserInfo()
+const userName = ref(user.nickname)
+
+// 监听是否成功获取到信息
+watch(
+  () => user.nickname,
+  (newValue, oldValue) => {  
+    userName.value = newValue;  
+  }  
+)
+
+</script>
+
 <template>
   <div class="header">
     <el-menu class="el-menu-demo" mode="horizontal">
@@ -21,13 +38,11 @@
           Info 
         </el-menu-item>
       </RouterLink>
+      <el-menu-item v-if="userName === ''" index="10">未登录</el-menu-item>
+      <el-menu-item v-else index="10">{{ userName }}</el-menu-item>
     </el-menu>
   </div>
 </template>
-
-<script lang="ts" setup>
-
-</script>
 
 <style scoped>
 .header {

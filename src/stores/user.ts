@@ -1,5 +1,7 @@
 import axios from 'axios'
 import { defineStore } from 'pinia'
+import { ElMessageBox } from 'element-plus'
+import { serviceJwt } from '@/api/http'
 
 export const useUserStore = defineStore('user', {
     persist: {
@@ -24,6 +26,7 @@ export const useUserStore = defineStore('user', {
         setToken(token: string) {
             this.$state.token = token
         },
+        // 注销用户
         logoutUser() {
             this.$reset()
         },
@@ -31,20 +34,12 @@ export const useUserStore = defineStore('user', {
             if (this.token === '') {
                 return
             }
-            let userInfo = this.$state.userInfo
-            await axios({
-                method: "get",
-                url:import.meta.env.VITE_BACKEND_URL + "/api/v1/user/1",
-                headers: {
-                    'Authorization': "Bearer " + this.$state.token
-                }
-            })
-            .then(function(response){
-                userInfo.id = response.data.data.id
-                userInfo.nickname = response.data.data.nick_name
-                userInfo.avatar = '666'
-            })
-            this.$state.userInfo = userInfo
+            try {
+                const response = await serviceJwt.get('/api/v1/user')
+                this.$state.userInfo.nickname = response.data.nickname
+                this.$state.userInfo.id = response.data.id
+            } catch (error) {
+            }
         },
     },
 })
