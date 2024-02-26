@@ -6,3 +6,11 @@ export interface GetUploadUrlData {
 export interface GetUploadUrlRes {
     url: string
 }
+
+export interface UploadFileData {
+    file: FormData
+}
+
+export interface UploadFileRes {
+    url: string
+}
