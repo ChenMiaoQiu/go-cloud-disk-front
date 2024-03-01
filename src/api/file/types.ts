@@ -14,3 +14,11 @@ export interface UploadFileData {
 export interface UploadFileRes {
     url: string
 }
+
+export interface GetDowloadRes {
+    dowload_url: string
+}
+
+export interface DeleteFileRes {
+
+}

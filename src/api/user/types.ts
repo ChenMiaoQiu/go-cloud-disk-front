@@ -9,5 +9,8 @@ export interface LoginRes {
     id: string,
     username: string,
     nickname: string,
+    filefolder: string,
+    filestore: string,
+    status: string
 }
 

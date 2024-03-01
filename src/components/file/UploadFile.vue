@@ -1,10 +1,7 @@
-
 <script setup lang="ts">
 import { ref } from 'vue'
 import { genFileId } from 'element-plus'
 import type { UploadInstance, UploadProps, UploadRawFile, UploadRequestOptions } from 'element-plus'
-import { UploadFile } from '@/api/file';
-import axios from 'axios';
 import { type UploadFileRes } from "@/api/file/types";
 import { serviceJwt } from '@/api/http';
 
@@ -18,14 +15,15 @@ const handleExceed: UploadProps['onExceed'] = (files) => {
 }
 
 const fileUpload = (param: UploadRequestOptions) => {
-    const file = param.file
-    const formData = new FormData()
-    formData.append('file', file)
-    const res = serviceJwt.post<UploadFileRes>('api/v1/upload', formData, {
-      headers: {
-        "Content-Type": "multipart/form-data"
-      }
-    })
+  const file = param.file
+  const formData = new FormData()
+  formData.append('file', file)
+  formData.append('filefolder', "666")
+  const res = serviceJwt.post<UploadFileRes>('api/v1/upload', formData, {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  })
 }
 
 const submitUpload = () => {
@@ -35,15 +33,8 @@ const submitUpload = () => {
 
 
 <template>
-  <el-upload
-    ref="upload"
-    class="upload-demo"
-    action="#"
-    :limit="1"
-    :on-exceed="handleExceed"
-    :http-request="fileUpload"
-    :auto-upload="false"
-  >
+  <el-upload ref="upload" class="upload-demo" action="#" :limit="1" :on-exceed="handleExceed" :http-request="fileUpload"
+    :auto-upload="false">
     <template #trigger>
       <el-button type="primary">select file</el-button>
     </template>

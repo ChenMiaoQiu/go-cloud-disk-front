@@ -4,7 +4,7 @@ import type { AxiosError, AxiosInstance, AxiosRequestConfig, AxiosResponse, Inte
 import axios from "axios";
 import { ElMessageBox } from "element-plus";
 
-export interface Result<T=any> {
+export interface Result<T = any> {
     code: number,
     message: string,
     data: T
@@ -13,7 +13,7 @@ export interface Result<T=any> {
 export const serviceJwt: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL,
     timeout: 10 * 1000,
-    headers: { 
+    headers: {
         "Content-Type": "application/json;charset=UTF-8",
     },
 })
@@ -21,15 +21,14 @@ export const serviceJwt: AxiosInstance = axios.create({
 export const service: AxiosInstance = axios.create({
     baseURL: import.meta.env.VITE_BACKEND_URL,
     timeout: 10 * 1000,
-    headers: { 
+    headers: {
         "Content-Type": "application/json;charset=UTF-8",
     },
 })
 
 service.interceptors.response.use((response: AxiosResponse) => {
     const data = response.data
-    console.log(data);
-    
+
     if (data.code == 1250) {
         ElMessageBox.alert('登录已过期, 请重新登录', 'Ops', {
             confirmButtonText: "OK",
@@ -39,7 +38,6 @@ service.interceptors.response.use((response: AxiosResponse) => {
         })
         return Promise.reject(data);
     } else if (data.code === 200) {
-        console.log("in response", data);
         return data.data
     } else {
         return Promise.reject(data);
@@ -51,6 +49,7 @@ service.interceptors.response.use((response: AxiosResponse) => {
 // 检查登录状态
 serviceJwt.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     const token = useUserStore().token
+
     if (token == "") {
         ElMessageBox.alert('未登录, 请登录', 'Ops', {
             confirmButtonText: "OK",
@@ -62,7 +61,7 @@ serviceJwt.interceptors.request.use((config: InternalAxiosRequestConfig) => {
     }
     config.headers.Authorization = `Bearer ${token}`
     return config
-    },
+},
     (error) => {
         return Promise.reject(error);
     }
@@ -71,7 +70,7 @@ serviceJwt.interceptors.request.use((config: InternalAxiosRequestConfig) => {
 // 验证返回
 serviceJwt.interceptors.response.use((response: AxiosResponse) => {
     const data = response.data
-    
+
     if (data.code == 1250) {
         ElMessageBox.alert('登录已过期, 请重新登录', 'Ops', {
             confirmButtonText: "OK",
@@ -80,7 +79,7 @@ serviceJwt.interceptors.response.use((response: AxiosResponse) => {
             }
         })
         return Promise.reject(data);
-    } else if (data.code === 200) {        
+    } else if (data.code === 200) {
         return data.data
     } else {
         return Promise.reject(data);
@@ -90,19 +89,19 @@ serviceJwt.interceptors.response.use((response: AxiosResponse) => {
 })
 
 export const http = {
-    get<T=any>(url: string, jwt?: boolean, config?: AxiosRequestConfig) : Promise<T> {
+    get<T = any>(url: string, jwt?: boolean, config?: AxiosRequestConfig): Promise<T> {
         if (!jwt) return service.get(url, config)
         return serviceJwt.get(url, config)
     },
-    post<T=any>(url:string, jwt?: boolean, data?: object, config?: AxiosRequestConfig) : Promise<T> {
+    post<T = any>(url: string, jwt?: boolean, data?: object, config?: AxiosRequestConfig): Promise<T> {
         if (!jwt) return service.post(url, data, config)
         return serviceJwt.post(url, data, config)
     },
-    put<T=any>(url:string, jwt?: boolean, data?: object, config?: AxiosRequestConfig) : Promise<T> {
+    put<T = any>(url: string, jwt?: boolean, data?: object, config?: AxiosRequestConfig): Promise<T> {
         if (!jwt) service.put(url, data, config)
         return serviceJwt.put(url, data, config)
     },
-    del<T=any>(url:string, jwt?: boolean, config?: AxiosRequestConfig) : Promise<T> {
+    del<T = any>(url: string, jwt?: boolean, config?: AxiosRequestConfig): Promise<T> {
         if (!jwt) service.delete(url, config)
         return serviceJwt.delete(url, config)
     }
