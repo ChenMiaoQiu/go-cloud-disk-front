@@ -2,6 +2,7 @@
 import { useUserStore } from '@/stores/user'
 import { ref, watch } from 'vue'
 import { ElMessageBox } from 'element-plus'
+import router from '@/router';
 const user = useUserStore()
 user.getUserInfo()
 const userName = ref(user.nickname)
@@ -19,7 +20,7 @@ const configLogout = () => {
     confirmButtonText: 'OK',
     callback: () => {
       user.logoutUser()
-      location.reload()
+      router.push('login')
     }
   })
 }

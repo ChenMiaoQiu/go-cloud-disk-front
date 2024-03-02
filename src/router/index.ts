@@ -1,3 +1,4 @@
+import { useUserStore } from '@/stores/user';
 import { createRouter, createWebHistory } from 'vue-router'
 
 const router = createRouter({
@@ -7,6 +8,7 @@ const router = createRouter({
       path: '/',
       name: 'home',
       component: () => import('@/views/HomeView.vue'),
+      meta: { requiresAuth: true },
     },
     {
       path: '/login',
@@ -18,12 +20,16 @@ const router = createRouter({
       name: 'register',
       component: () => import('@/views/RegisterView.vue'),
     },
-    {
-      path: '/info',
-      name: 'info',
-      component: () => import('@/views/AboutView.vue'),
-    }
   ]
+})
+
+router.beforeEach((to, from, next) => {
+  const token = useUserStore().token
+  if (to.meta.requiresAuth && token === '') {
+    next('/login'); // 跳转到登录页面
+  } else {
+    next(); // 继续导航
+  }
 })
 
 export default router

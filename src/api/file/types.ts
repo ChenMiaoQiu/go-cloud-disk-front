@@ -22,3 +22,10 @@ export interface GetDowloadRes {
 export interface DeleteFileRes {
 
 }
+
+export interface FilesInfo {
+    file_id: string,
+    filename: string,
+    filetype: string,
+    size: number,
+}

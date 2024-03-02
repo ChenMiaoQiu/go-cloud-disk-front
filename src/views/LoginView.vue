@@ -13,14 +13,14 @@ const form = reactive({
   password: '',
 })
 
-const isLoding = ref(0)
+const isLoding = ref(false)
 
 const onSubmit = async () => {
   if (form.username === "" || form.password === "") {
     ElMessageBox.alert('请输入正确密码和账户', '错误!')
     return
   }
-  isLoding.value = 1
+  isLoding.value = true
   try {
     const res = await LoginUser(form)
     useUserStore().setToken(res.token)
@@ -32,7 +32,7 @@ const onSubmit = async () => {
   router.push('/').then(() => {
     location.reload()
   })
-  isLoding.value = 0
+  isLoding.value = false
 }
 
 </script>

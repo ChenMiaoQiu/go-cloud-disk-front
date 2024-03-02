@@ -1,39 +1,42 @@
 <script lang="ts" setup>
 import { ElMessage, ElMessageBox } from 'element-plus'
+import type { UploadInstance, UploadProps, UploadRawFile, UploadRequestOptions } from 'element-plus'
+import type { FilesInfo } from "@/api/file/types";
+import { serviceJwt } from '@/api/http';
 
-import type { UploadProps } from 'element-plus'
+const FileFolderId = defineProps(['FileFolderId'])
+const pushFileToFiles = defineEmits(['pushFileToFiles'])
 
-const handleRemove: UploadProps['onRemove'] = (file, uploadFiles) => {
-    console.log(file, uploadFiles)
+// 上传文件
+const fileUpload = async (param: UploadRequestOptions) => {
+    // 获取上传的文件
+    const file = param.file
+    const formData = new FormData()
+    formData.append('file', file)
+    formData.append('filefolder', FileFolderId.FileFolderId)
+
+    // 发送url
+    try {
+        const res = await serviceJwt.post<FilesInfo>('api/v1/file', formData, {
+            headers: {
+                "Content-Type": "multipart/form-data"
+            }
+        })
+        console.log(res);
+        pushFileToFiles("pushFileToFiles", res)
+        ElMessageBox.alert("上传成功", "Tips");
+    } catch (error) {
+        ElMessageBox.alert("上传失败", "Ops");
+    }
+
 }
 
-const handlePreview: UploadProps['onPreview'] = (uploadFile) => {
-    console.log(uploadFile)
-}
-
-const handleExceed: UploadProps['onExceed'] = (files, uploadFiles) => {
-    ElMessage.warning(
-        `The limit is 3, you selected ${files.length} files this time, add up to ${files.length + uploadFiles.length
-        } totally`
-    )
-}
-
-const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
-    return ElMessageBox.confirm(
-        `Cancel the transfer of ${uploadFile.name} ?`
-    ).then(
-        () => true,
-        () => false
-    )
-}
 </script>
 
 <template>
     <div>
-        <el-upload class="upload-demo" action="https://run.mocky.io/v3/9d059bf9-4660-45f2-925d-ce80ad6c4d15" multiple
-            :on-preview="handlePreview" :on-remove="handleRemove" :before-remove="beforeRemove" :limit="3"
-            :on-exceed="handleExceed">
-            <el-button class="button-style" type="primary">Click to upload</el-button>
+        <el-upload class="upload-demo" action="#" :http-request="fileUpload">
+            <el-button class="button-style" type="primary">上传文件</el-button>
         </el-upload>
     </div>
 </template>
@@ -41,7 +44,8 @@ const beforeRemove: UploadProps['beforeRemove'] = (uploadFile, uploadFiles) => {
 <style scoped>
 .button-style {
     position: absolute;
-    top: 0px;
+    top: 15px;
+    left: 30px;
 }
 </style>
 
