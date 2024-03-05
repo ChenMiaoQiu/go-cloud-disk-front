@@ -20,7 +20,15 @@ export interface GetDowloadRes {
 }
 
 export interface DeleteFileRes {
+}
 
+export interface RemoveFileData {
+    file: string,
+    name: string,
+    parent: string,
+}
+
+export interface RemoveFileRes {
 }
 
 export interface FilesInfo {

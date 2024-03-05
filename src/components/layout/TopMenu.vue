@@ -16,11 +16,11 @@ watch(
 )
 
 const configLogout = () => {
-  ElMessageBox.alert("确定要退出吗", "Tips", {
+  ElMessageBox.alert("即将退出登录", "Tips", {
     confirmButtonText: 'OK',
     callback: () => {
-      user.logoutUser()
       router.push('login')
+      user.logoutUser()
     }
   })
 }

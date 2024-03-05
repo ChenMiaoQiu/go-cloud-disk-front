@@ -30,7 +30,6 @@ import TopMenu from './TopMenu.vue';
 
 .el-header {
     background-color: #b3c0d1;
-    color: #333;
     text-align: center;
     line-height: 60px;
     right: 0px;
@@ -42,7 +41,6 @@ import TopMenu from './TopMenu.vue';
 
 .el-aside {
     background-color: #d3dce6;
-    color: #333;
     text-align: center;
     line-height: 200px;
     height: 100%;
@@ -50,14 +48,12 @@ import TopMenu from './TopMenu.vue';
 }
 
 .el-main {
-    background-color: #e9eef3;
+    background-color: white;
     color: #333;
     text-align: center;
     line-height: 160px;
     position: fixed;
     display: flex;
-    justify-content: center;
-    align-items: center;
     left: 200px;
     top: 60px;
     right: 0px;

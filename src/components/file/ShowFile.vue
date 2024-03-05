@@ -1,32 +1,36 @@
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
 import { DownloadFile } from '@/api/file/index'
+import RemoveFileMenu from '@/components/file/RemoveFileMenu.vue'
+import { useUserStore } from '@/stores/user';
 
-const files = defineProps(['filesInfo'])
+const files = defineProps(['filesInfo', 'nowFileFolder'])
 const parentFunc = defineEmits(['updateFileList', 'removeFileFromFiles'])
 
 // 计算文件大小
 function getFileSize(size: number): string {
     if (size == 0) return "-"
     if (size < 1024) {
-        const str = String(size)
+        const str = String(size.toFixed(2))
         return str + 'B'
     }
     size /= 1024
     if (size < 1024) {
-        const str = String(size)
+        const str = String(size.toFixed(2))
         return str + 'KB'
     }
     size /= 1024
-    const str = String(size)
+    const str = String(size.toFixed(2))
     return str + 'MB'
 }
 
+// 跳转到下载页面
 async function downLoadFile(fileid: string) {
     const res = await DownloadFile(fileid)
     window.open(res.dowload_url, '_blank')
 }
 
+// 获得文件类型
 function getFileType(type: string): string {
     if (type === 'file_folder') {
         return 'folder'
@@ -34,13 +38,25 @@ function getFileType(type: string): string {
     return 'unknow'
 }
 
+// 跳转文件夹
 function clickThis(filefolderId: string) {
     parentFunc('updateFileList', filefolderId)
+}
+
+// 展示移动文件界面
+const removeMenuRef = ref()
+function showRemoveFileMenu(fileid:string) {
+    removeMenuRef.value?.showRemoveTable(fileid)
+}
+
+function removeSuccess() {
+    parentFunc('updateFileList', useUserStore().filefolder)
 }
 
 </script>
 
 <template>
+    <RemoveFileMenu ref="removeMenuRef" @removeSuccess="removeSuccess"></RemoveFileMenu>
     <el-table :data="files.filesInfo" height="800" class="table-style">
         <el-table-column width="100">
             <template #default="scoped">
@@ -52,6 +68,7 @@ function clickThis(filefolderId: string) {
                 </el-icon>
             </template>
         </el-table-column>
+        <!-- 判断是否为文件夹 是则可以点击进入 -->
         <el-table-column prop="filename" label="文件名" width="180">
             <template #default="scoped">
                 <div v-if="getFileType(scoped.row.filetype) !== 'folder'">
@@ -77,12 +94,13 @@ function clickThis(filefolderId: string) {
         </el-table-column>
 
         <!-- 操作判断 -->
-        <el-table-column fixed="right" label="操作" width="150">
+        <el-table-column fixed="right" label="操作" width="200">
             <template #default="scoped">
                 <div v-if="scoped.row.filetype !== 'file_folder'">
                     <el-button link type="primary" size="small"
                         @click="parentFunc('removeFileFromFiles', scoped.row.file_id)">删除</el-button>
                     <el-button link type="primary" size="small" @click="downLoadFile(scoped.row.file_id)">下载</el-button>
+                    <el-button link type="primary" size="small" @click="showRemoveFileMenu(scoped.row.file_id)">移动</el-button>
                 </div>
                 <div v-else>
                     <el-button link type="primary" size="small"

@@ -18,3 +18,7 @@ export async function DeleteFile(fileid: string) {
     const url: string = 'api/v1/file/' + fileid
     return await http.del<Type.DeleteFileRes>(url, true)
 }
+
+export async function RemoveFile(data: Type.RemoveFileData) {
+    return await http.put<Type.RemoveFileRes>('api/v1/file', true, data)
+}

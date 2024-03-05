@@ -10,6 +10,7 @@ export interface GetFileFoldersRes {
     name: string
     filetype: string
     parent: string
+    size: number
 }
 
 export interface FilesInfo {
@@ -29,6 +30,7 @@ export interface CreateFileFolderRes {
     name: string
     filetype: string
     parent: string
+    size: number
 }
 
 export interface DeleteFIleFolderRes {
@@ -40,6 +42,6 @@ export function ConverFilefolderInfoToFileInfo(filefolder: GetFileFoldersRes): F
         file_id: filefolder.filefolder_id,
         filename: filefolder.name,
         filetype: filefolder.filetype,
-        size: 0
+        size: filefolder.size
     }
 }

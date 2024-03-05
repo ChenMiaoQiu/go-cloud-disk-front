@@ -27,6 +27,7 @@ const onSubmit = async () => {
     useUserStore().setUser(res)
   } catch (error) {
     ElMessageBox.alert('请输入正确密码和账户', '错误!')
+    isLoding.value = false
     return
   }
   router.push('/').then(() => {
@@ -38,7 +39,7 @@ const onSubmit = async () => {
 </script>
 
 <template>
-  <el-form :model="form" label-width="120px">
+  <el-form class="login-style" :model="form" label-width="120px">
     <el-form-item label="UserName">
       <el-input v-model="form.username" />
     </el-form-item>
@@ -51,6 +52,13 @@ const onSubmit = async () => {
     </el-form-item>
   </el-form>
 </template>
-  
+
+<style scoped>
+.login-style {
+  position: relative;
+  top: 30%;
+  left: 30%;
+}
+</style>
 
   
