@@ -2,16 +2,18 @@
 import router from '@/router';
 import { useUserStore } from '@/stores/user';
 import { ref, watch } from 'vue';
+import { useRouter } from 'vue-router';
 
 const user = useUserStore()
 const userUsed = ref<number>(0)
+const route = useRouter()
 
 function toHomeView() {
-    router.push("/")
+    route.push("/")
 }
 
 function toFileView() {
-    router.push("file")
+    route.push("/file")
 }
 
 watch(

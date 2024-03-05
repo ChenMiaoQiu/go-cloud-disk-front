@@ -1,6 +1,10 @@
 import { useUserStore } from '@/stores/user';
 import { createRouter, createWebHistory } from 'vue-router'
 
+const Share = {
+  template: '<div>User</div>'
+}
+
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -26,6 +30,12 @@ const router = createRouter({
       name: 'register',
       component: () => import('@/views/RegisterView.vue'),
     },
+    {
+      path: '/share/:shareId',
+      name: 'share',
+      component: () => import('@/views/ShareView.vue'),
+      props: true,
+    }
   ]
 })
 

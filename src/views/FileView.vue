@@ -62,6 +62,7 @@ async function deleteFileinFiles(fileId: string) {
     } else {
       const res = await DeleteFile(fileId)
     }
+    user.getUserStoreVolum()
   } catch (error) {
     ElMessageBox.alert("删除失败", "ops!")
   }
@@ -138,11 +139,11 @@ if (user.filefolder != '') {
 }
 
 .main-style {
-  background-color: aquamarine;
+  background-color: white;
   position: absolute;
   width: 100%;
   left: 0px;
-  height: 100%;
+  height: 500px;
   top: 60px;
   bottom: 0px;
   right: 0px;

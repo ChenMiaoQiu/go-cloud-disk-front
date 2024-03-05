@@ -3,14 +3,23 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 import type { UploadInstance, UploadProps, UploadRawFile, UploadRequestOptions } from 'element-plus'
 import type { FilesInfo } from "@/api/file/types";
 import { serviceJwt } from '@/api/http';
+import { useUserStore } from '@/stores/user';
 
 const FileFolderId = defineProps(['FileFolderId'])
 const pushFileToFiles = defineEmits(['pushFileToFiles'])
+const user = useUserStore()
 
 // 上传文件
 const fileUpload = async (param: UploadRequestOptions) => {
     // 获取上传的文件
     const file = param.file
+
+    // 检查文件大小
+    const freeSpace = user.maxSize - user.currentSize
+    if (file.size >= freeSpace) {
+        ElMessageBox.alert("超出容量上限", "ops")
+        return
+    }
     const formData = new FormData()
     formData.append('file', file)
     formData.append('filefolder', FileFolderId.FileFolderId)
@@ -24,6 +33,7 @@ const fileUpload = async (param: UploadRequestOptions) => {
         })
         console.log(res);
         pushFileToFiles("pushFileToFiles", res)
+        user.getUserStoreVolum()
         ElMessageBox.alert("上传成功", "Tips");
     } catch (error) {
         ElMessageBox.alert("上传失败", "Ops");

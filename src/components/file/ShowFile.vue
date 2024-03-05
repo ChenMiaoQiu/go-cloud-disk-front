@@ -2,6 +2,7 @@
 import { reactive, ref } from 'vue';
 import { DownloadFile } from '@/api/file/index'
 import RemoveFileMenu from '@/components/file/RemoveFileMenu.vue'
+import ShareFileMenu from '@/components/file/ShareFileMenu.vue'
 import { useUserStore } from '@/stores/user';
 
 const files = defineProps(['filesInfo', 'nowFileFolder'])
@@ -49,6 +50,12 @@ function showRemoveFileMenu(fileid:string) {
     removeMenuRef.value?.showRemoveTable(fileid)
 }
 
+// 展示分享文件界面
+const shareMenuRef = ref()
+function showShareFileMenu(fileid:string) {
+    shareMenuRef.value?.showShareMenu(fileid)
+}
+
 function removeSuccess() {
     parentFunc('updateFileList', useUserStore().filefolder)
 }
@@ -57,7 +64,8 @@ function removeSuccess() {
 
 <template>
     <RemoveFileMenu ref="removeMenuRef" @removeSuccess="removeSuccess"></RemoveFileMenu>
-    <el-table :data="files.filesInfo" height="800" class="table-style">
+    <ShareFileMenu ref="shareMenuRef"></ShareFileMenu>
+    <el-table :data="files.filesInfo" height="500" class="table-style">
         <el-table-column width="100">
             <template #default="scoped">
                 <el-icon v-if="getFileType(scoped.row.filetype) === 'folder'">
@@ -100,7 +108,13 @@ function removeSuccess() {
                     <el-button link type="primary" size="small"
                         @click="parentFunc('removeFileFromFiles', scoped.row.file_id)">删除</el-button>
                     <el-button link type="primary" size="small" @click="downLoadFile(scoped.row.file_id)">下载</el-button>
-                    <el-button link type="primary" size="small" @click="showRemoveFileMenu(scoped.row.file_id)">移动</el-button>
+                    <el-button link type="primary" size="small" @click="showRemoveFileMenu(scoped.row.file_id)">
+                        移动
+                    </el-button>
+                    <el-button link type="primary" size="small" class="tooltip" @click="showShareFileMenu(scoped.row.file_id)">
+                        <el-icon><Share /></el-icon>
+                        <span class="tooltiptext">分享</span>
+                    </el-button>
                 </div>
                 <div v-else>
                     <el-button link type="primary" size="small"
@@ -117,6 +131,27 @@ function removeSuccess() {
 .table-style {
     width: 100%;
     height: 100%;
+}
+
+.tooltip {
+    position: relative;
+    display: inline-block;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 40px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    padding: 5px 0;
+    border-radius: 6px;
+    position: absolute;
+    z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
 }
 </style>
   
