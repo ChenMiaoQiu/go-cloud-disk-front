@@ -3,9 +3,11 @@ import { useUserStore } from '@/stores/user'
 import { ref, watch } from 'vue'
 import { ElMessageBox } from 'element-plus'
 import router from '@/router';
+import { useRouter } from 'vue-router';
 const user = useUserStore()
 user.getUserInfo()
 const userName = ref(user.nickname)
+const route = useRouter()
 
 // 监听是否成功获取到信息
 watch(
@@ -14,6 +16,10 @@ watch(
     userName.value = newValue;
   }
 )
+
+function toLoginView() {
+  route.push("/login")
+}
 
 const configLogout = () => {
   ElMessageBox.alert("即将退出登录", "Tips", {
@@ -32,8 +38,8 @@ const configLogout = () => {
     <el-menu class="el-menu-demo" :ellipsis="false" mode="horizontal">
       <div class="flex-grow" />
       <el-menu-item v-if="userName !== ''" @click="configLogout">退出登录</el-menu-item>
-      <el-menu-item v-if="userName === ''" index="1">
-        <RouterLink to="login">未登录</RouterLink>
+      <el-menu-item v-if="userName === ''" index="1" @click="toLoginView">
+        未登录
       </el-menu-item>
       <el-menu-item v-else index="2">{{ userName }}</el-menu-item>
     </el-menu>

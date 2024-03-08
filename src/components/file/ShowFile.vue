@@ -1,7 +1,7 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
 import { DownloadFile } from '@/api/file/index'
-import RemoveFileMenu from '@/components/file/RemoveFileMenu.vue'
+import MoveFileMenu from '@/components/file/MoveFileMenu.vue'
 import ShareFileMenu from '@/components/file/ShareFileMenu.vue'
 import { useUserStore } from '@/stores/user';
 
@@ -63,7 +63,7 @@ function removeSuccess() {
 </script>
 
 <template>
-    <RemoveFileMenu ref="removeMenuRef" @removeSuccess="removeSuccess"></RemoveFileMenu>
+    <MoveFileMenu ref="removeMenuRef" @removeSuccess="removeSuccess"></MoveFileMenu>
     <ShareFileMenu ref="shareMenuRef"></ShareFileMenu>
     <el-table :data="files.filesInfo" height="500" class="table-style">
         <el-table-column width="100">

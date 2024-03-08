@@ -35,7 +35,31 @@ const router = createRouter({
       name: 'share',
       component: () => import('@/views/ShareView.vue'),
       props: true,
-    }
+    },
+    {
+      path: '/allshare',
+      name: 'allshare',
+      component: () => import('@/views/ShareListView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/rank',
+      name: 'rank',
+      component: () => import('@/views/ShareRankView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/manage/user',
+      name: 'usermanage',
+      component: () => import('@/views/UserManageView.vue'),
+      meta: { requiresAuth: true },
+    },
+    {
+      path: '/manage/share',
+      name: 'sharemanage',
+      component: () => import('@/views/ShareManageView.vue'),
+      meta: { requiresAuth: true },
+    },
   ]
 })
 

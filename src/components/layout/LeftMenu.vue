@@ -16,6 +16,22 @@ function toFileView() {
     route.push("/file")
 }
 
+function toShareView() {
+    route.push("/allshare")
+}
+
+function toRankView() {
+    route.push("/rank")
+}
+
+function toManageUserView() {
+    route.push("/manage/user")
+}
+
+function toManageShareView() {
+    route.push("/manage/share")
+}
+
 watch(
     () => user.currentSize,
     (nowVal, oldVal) => {
@@ -36,10 +52,24 @@ watch(
                     <span>主页</span>
                 </el-menu-item>
                 <el-menu-item index="file" @click="toFileView">
-                    <el-icon>
-                        <Files />
-                    </el-icon>
+                    <el-icon><Files /></el-icon>
                     <span>所有文件</span>
+                </el-menu-item>
+                <el-menu-item index="share" @click="toShareView">
+                    <el-icon><List /></el-icon>
+                    <span>我的分享</span>
+                </el-menu-item>
+                <el-menu-item index="rank" @click="toRankView">
+                    <el-icon><Histogram /></el-icon>
+                    <span>分享排行榜</span>
+                </el-menu-item>
+                <el-menu-item v-if="user.status === 'common_admin' || user.status === 'super_admin'" index="userManage" @click="toManageUserView">
+                    <el-icon><Histogram /></el-icon>
+                    <span>用户管理</span>
+                </el-menu-item>
+                <el-menu-item v-if="user.status === 'common_admin' || user.status === 'super_admin'" index="shareManage" @click="toManageShareView">
+                    <el-icon><Histogram /></el-icon>
+                    <span>分享管理</span>
                 </el-menu-item>
             </el-menu>
         </el-col>
@@ -55,7 +85,7 @@ watch(
     position: relative;
     bottom: 0px;
     top: 0px;
-    height: 100%;
+    height: 500px;
     background-color: white;
     border-right: 1px solid var(--el-border-color);
 }

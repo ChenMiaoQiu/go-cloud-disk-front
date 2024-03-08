@@ -40,7 +40,7 @@ import TopMenu from './TopMenu.vue';
 }
 
 .el-aside {
-    background-color: #d3dce6;
+    background-color: white;
     text-align: center;
     line-height: 200px;
     height: 100%;
@@ -62,6 +62,6 @@ import TopMenu from './TopMenu.vue';
 }
 
 .el-menu {
-    background-color: #d3dce6;
+    background-color: white;
 }
 </style>

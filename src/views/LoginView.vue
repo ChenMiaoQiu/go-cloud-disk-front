@@ -44,7 +44,7 @@ const onSubmit = async () => {
       <el-input v-model="form.username" />
     </el-form-item>
     <el-form-item label="Password">
-      <el-input v-model="form.password" />
+      <el-input type="password" show-password v-model="form.password" />
     </el-form-item>
     <el-form-item>
       <el-button type="primary" :loading="isLoding" @click="onSubmit">登录</el-button>
