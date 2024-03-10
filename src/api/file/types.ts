@@ -31,6 +31,21 @@ export interface RemoveFileData {
 export interface RemoveFileRes {
 }
 
+export interface AdminDeleteFileData {
+    fileId: string
+}
+
+export interface AdminDeleteFileRes {
+}
+
+export interface SaveFileData {
+    fileid: string
+    filefolder: string
+}
+
+export interface SaveFileRes {
+}
+
 export interface FilesInfo {
     file_id: string,
     filename: string,

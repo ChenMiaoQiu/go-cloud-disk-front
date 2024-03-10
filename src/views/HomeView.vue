@@ -24,6 +24,7 @@ function ToGitHubLink() {
     position: relative;
     left: 40%;
     top: 20%;
+    height: 500px;
 }
 .text-style {
     height: 50px;

@@ -22,3 +22,12 @@ export async function DeleteFile(fileid: string) {
 export async function RemoveFile(data: Type.RemoveFileData) {
     return await http.put<Type.RemoveFileRes>('api/v1/file', true, data)
 }
+
+export async function AdminDeleteFile(data: Type.AdminDeleteFileData) {
+    const url: string = 'api/v1/admin/file/' + data.fileId
+    return await http.del<Type.AdminDeleteFileRes>(url, true)
+}
+
+export async function SaveFile(data: Type.SaveFileData) {
+    return await http.post<Type.SaveFileRes>('api/v1/share/file', true, data)
+}

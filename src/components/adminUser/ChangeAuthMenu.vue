@@ -5,6 +5,7 @@ import { reactive, ref } from 'vue'
 
 const showTable = ref(false)
 const changeUserId = ref('')
+const ParentFunc = defineEmits(['ChangeUserStatus'])
 
 const form = reactive({
     newAuth: ''
@@ -46,10 +47,21 @@ async function ConfrimChange() {
             userid: changeUserId.value,
             status: form.newAuth
         })
+        ParentFunc('ChangeUserStatus', {
+            userId: changeUserId.value,
+            newStatus: form.newAuth
+        })
+        ElMessage({
+            showClose: true,
+            message: '修改成功',
+            type: 'success',
+        })
     } catch(error) {
-        console.log(error);
-        
-        ElMessageBox.alert("没有权限,修改失败", "ops")
+        ElMessage({
+            showClose: true,
+            message: '修改失败',
+            type: 'error',
+        })
     }
 }
 

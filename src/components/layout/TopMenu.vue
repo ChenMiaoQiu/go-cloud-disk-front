@@ -25,7 +25,7 @@ const configLogout = () => {
   ElMessageBox.alert("即将退出登录", "Tips", {
     confirmButtonText: 'OK',
     callback: () => {
-      router.push('login')
+      router.push('/login')
       user.logoutUser()
     }
   })
@@ -37,8 +37,8 @@ const configLogout = () => {
   <div class="header">
     <el-menu class="el-menu-demo" :ellipsis="false" mode="horizontal">
       <div class="flex-grow" />
-      <el-menu-item v-if="userName !== ''" @click="configLogout">退出登录</el-menu-item>
-      <el-menu-item v-if="userName === ''" index="1" @click="toLoginView">
+      <el-menu-item v-if="userName !== ''" @click="configLogout()">退出登录</el-menu-item>
+      <el-menu-item v-if="userName === ''" index="1" @click="toLoginView()">
         未登录
       </el-menu-item>
       <el-menu-item v-else index="2">{{ userName }}</el-menu-item>

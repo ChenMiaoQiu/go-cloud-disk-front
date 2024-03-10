@@ -23,3 +23,12 @@ export async function DeleteShareInfo(data: Type.DeleteShareData) {
 export async function GetRankInfo(data: Type.GetRankShareData) {
     return await http.get<Type.GetRankShareRes[]>("/api/v1/rank/day", true)
 }
+
+export async function SearchShare(data: Type.SearchShareData) {
+    return await http.post<Type.SearchShareRes[]>('/api/v1/admin/share', true, data)
+}
+
+export async function AdminDeleteShare(data: Type.AdminDeleteShareData) {
+    const shareUrl = "/api/v1/admin/share/" + data.shareid
+    return await http.del<Type.AdminDeleteShareRes>(shareUrl, true)
+}

@@ -35,12 +35,31 @@ function toManageShareView() {
 watch(
     () => user.currentSize,
     (nowVal, oldVal) => {
-        const num = user.currentSize / user.maxSize * 100
-        userUsed.value = Number(num.toFixed(2))
-        console.log(userUsed.value);
-        
+        if (user.token) {
+            const num = (user.maxSize - user.currentSize) / user.maxSize * 100
+            userUsed.value = Number(num.toFixed(2))
+        } else {
+            userUsed.value = 0
+        }
     }
 )
+
+function getFileSize(size: number): string {
+    if (size == 0) return "-"
+    if (size < 1024) {
+        const str = String(size.toFixed(2))
+        return str + 'B'
+    }
+    size /= 1024
+    if (size < 1024) {
+        const str = String(size.toFixed(2))
+        return str + 'KB'
+    }
+    size /= 1024
+    const str = String(size.toFixed(2))
+    return str + 'MB'
+}
+
 </script>
   
 <template>
@@ -64,18 +83,18 @@ watch(
                     <span>分享排行榜</span>
                 </el-menu-item>
                 <el-menu-item v-if="user.status === 'common_admin' || user.status === 'super_admin'" index="userManage" @click="toManageUserView">
-                    <el-icon><Histogram /></el-icon>
+                    <el-icon><UserFilled /></el-icon>
                     <span>用户管理</span>
                 </el-menu-item>
                 <el-menu-item v-if="user.status === 'common_admin' || user.status === 'super_admin'" index="shareManage" @click="toManageShareView">
-                    <el-icon><Histogram /></el-icon>
+                    <el-icon><Share /></el-icon>
                     <span>分享管理</span>
                 </el-menu-item>
             </el-menu>
         </el-col>
-        <el-col>
+        <el-col class="">
             <el-progress class="used-board" type="circle" :percentage="userUsed" />
-            <div class="used-text">已使用</div>
+            <div class="used-text">剩余 {{ getFileSize(user.maxSize - user.currentSize) }}</div>
         </el-col>
     </el-row>
 </template>
@@ -87,7 +106,6 @@ watch(
     top: 0px;
     height: 500px;
     background-color: white;
-    border-right: 1px solid var(--el-border-color);
 }
 
 .left-board-el-menu {
@@ -104,4 +122,5 @@ watch(
     height: 30px;
     position: relative;
 }
+
 </style>

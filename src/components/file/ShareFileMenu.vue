@@ -31,6 +31,7 @@ async function ConfirmCreate() {
             fileId: shareFileId.value,
             title: form.title,
         })
+        form.title = ""
         ElMessageBox.alert('分享成功!,这是您的分享链接:\n' + import.meta.env.VITE_FRONT_URL + "/share/" + res.shareid, 'Ops', {
             confirmButtonText: 'OK',
         })

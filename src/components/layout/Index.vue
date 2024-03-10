@@ -44,6 +44,8 @@ import TopMenu from './TopMenu.vue';
     text-align: center;
     line-height: 200px;
     height: 100%;
+    border-right: 1px solid var(--el-border-color);
+
     position: fixed;
 }
 

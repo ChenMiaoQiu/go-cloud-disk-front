@@ -58,6 +58,7 @@ const onSubmit = async () => {
   position: relative;
   top: 30%;
   left: 30%;
+  height: 500px;
 }
 </style>
 

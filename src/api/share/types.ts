@@ -20,6 +20,7 @@ export interface GetShareRes {
     view: number
     downloadurl: string
     filename: string
+    filesize: number
 }
 
 export interface GetAllShareData {
@@ -55,4 +56,28 @@ export interface GetRankShareRes {
     view: number
     downloadurl: string
     filename: string
+}
+
+export interface SearchShareData {
+    uuid: string
+    title: string
+    owner: string
+}
+
+export interface SearchShareRes {
+    shareid: string
+    title: string
+    sharefileid: string
+    owner: string
+    sharetime: string
+    view: number
+    downloadurl: string
+    filename: string
+}
+
+export interface AdminDeleteShareData {
+    shareid: string
+}
+
+export interface AdminDeleteShareRes {
 }

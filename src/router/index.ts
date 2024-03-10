@@ -52,22 +52,34 @@ const router = createRouter({
       path: '/manage/user',
       name: 'usermanage',
       component: () => import('@/views/UserManageView.vue'),
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requireAdmin: true },
     },
     {
       path: '/manage/share',
       name: 'sharemanage',
       component: () => import('@/views/ShareManageView.vue'),
-      meta: { requiresAuth: true },
+      meta: { requiresAuth: true, requireAdmin: true },
+    },
+    {
+      path: '/404',
+      name: '404',
+      component: () => import('@/views/NotFoundView.vue'),
     },
   ]
 })
 
 router.beforeEach((to, from, next) => {
   const token = useUserStore().token
-  if (to.meta.requiresAuth && token === '') {
+  const state = useUserStore().status
+  if (to.matched.length === 0) {
+    next('/404')
+  }
+  if (to.meta.requireAdmin && state != "common_admin" && state != "super_admin") {
+    next('/'); // 跳转到根界面
+  } else if (to.meta.requiresAuth && token === '') {
     next('/login'); // 跳转到登录页面
-  } else {
+  }
+  else {
     next(); // 继续导航
   }
 })
