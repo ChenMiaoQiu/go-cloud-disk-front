@@ -55,7 +55,6 @@ export const useUserStore = defineStore('user', {
                 const response = await GetUserInfo(this.userId)
                 this.userInfo = response
             } catch (error) {
-                console.log(error)
                 ElMessageBox.alert("登录过期,请重新登录", "ops")
                 this.logoutUser()
             }
@@ -69,7 +68,6 @@ export const useUserStore = defineStore('user', {
                 const resp = await GetFileStoreVolum({ storeId: this.filestore })
                 this.userStore = resp
             } catch (error) {
-                console.log(error)
                 ElMessageBox.alert("获取用户容量失败,请稍后再试", "ops")
             }
         },

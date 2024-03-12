@@ -35,3 +35,27 @@ export interface ChangeUserAuthData {
 
 export interface ChangeUserAuthRes {
 }
+
+export interface GetConfirmEmailData {
+    email: string
+}
+
+export interface GetConfirmEmailRes {
+}
+
+export interface RegisterData {
+    username: string
+    nickname: string
+    password: string
+    code: string
+}
+
+export interface RegisterRes {
+    token: string,
+    id: string,
+    username: string,
+    nickname: string,
+    filefolder: string,
+    filestore: string,
+    status: string
+}

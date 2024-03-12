@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { SearchUser } from '@/api/user';
 import type { SearchUserData } from '@/api/user/types';
+import { ElMessage } from 'element-plus';
 import { ref } from 'vue';
 
 const userUuid = ref('')
@@ -18,7 +19,10 @@ async function ToSearchUser() {
         const res = await SearchUser(searchData)
         ParentFunc('ChangeUserList', res)
     } catch(error) {
-        console.log(error);
+        ElMessage({
+            message: error as string,
+            type: 'warning',
+        })
     }
 }
 

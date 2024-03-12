@@ -3,6 +3,7 @@ import { GetShareInfo } from '@/api/share';
 import type { GetShareRes } from '@/api/share/types';
 import SaveFileMenu from '@/components/share/SaveFileMenu.vue';
 import { useUserStore } from '@/stores/user';
+import { ElMessage } from 'element-plus';
 import { ref } from 'vue';
 import { useRoute } from 'vue-router';
 const route = useRoute()
@@ -26,7 +27,10 @@ async function getShareInfo(id:string) {
     const res = await GetShareInfo({shareid:id})
     shareInfo.value = res
   } catch(error) {
-    console.log(error);
+    ElMessage({
+      message: '服务器错误,获取失败',
+      type: 'warning',
+    })
   }
 }
 

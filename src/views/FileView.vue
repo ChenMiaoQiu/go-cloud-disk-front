@@ -26,8 +26,6 @@ const getFilesInfo = async (filefolderId: string) => {
       }
     }
   } catch (error) {
-    console.log(error);
-
     ElMessageBox.alert("网络错误,无法获取用户文件", "ops!")
   }
 }

@@ -19,7 +19,6 @@ async function confirmClick() {
         })
         return
     }
-    console.log(FileFolderId.FileFolderId);
     try {
         const res = await CreateFileFolder({
             parent: FileFolderId.FileFolderId,

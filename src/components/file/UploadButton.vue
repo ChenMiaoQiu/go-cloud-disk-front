@@ -31,7 +31,6 @@ const fileUpload = async (param: UploadRequestOptions) => {
                 "Content-Type": "multipart/form-data"
             }
         })
-        console.log(res);
         pushFileToFiles("pushFileToFiles", res)
         user.getUserStoreVolum()
         ElMessageBox.alert("上传成功", "Tips");

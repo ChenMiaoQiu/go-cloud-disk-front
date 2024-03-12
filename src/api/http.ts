@@ -40,7 +40,7 @@ service.interceptors.response.use((response: AxiosResponse) => {
     } else if (data.code === 200) {
         return data.data
     } else {
-        return Promise.reject(data);
+        return Promise.reject(data.msg);
     }
 }, (err) => {
     return Promise.reject(err);
@@ -75,7 +75,7 @@ serviceJwt.interceptors.response.use((response: AxiosResponse) => {
         ElMessageBox.alert('登录已过期, 请重新登录', 'Ops', {
             confirmButtonText: "OK",
             callback: () => {
-                router.push('login')
+                router.push('/login')
             }
         })
         return Promise.reject(data);

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { SearchShare } from '@/api/share';
 import type { SearchShareData } from '@/api/share/types';
+import { ElMessage } from 'element-plus';
 import { ref } from 'vue';
 
 const userUuid = ref('')
@@ -8,7 +9,7 @@ const title = ref('')
 const owner = ref('')
 const ParentFunc = defineEmits(['ChangeShareList'])
 
-async function ToSearchUser() {
+async function ToSearchShare() {
     const searchData:SearchShareData = {
         uuid: userUuid.value,
         title: title.value,
@@ -16,11 +17,12 @@ async function ToSearchUser() {
     }
     try {
         const res = await SearchShare(searchData)
-        console.log(res);
-        
         ParentFunc('ChangeShareList', res)
     } catch(error) {
-        console.log(error);
+        ElMessage({
+            message: error as string,
+            type: 'warning',
+        })
     }
 }
 
@@ -31,7 +33,7 @@ async function ToSearchUser() {
         <el-col  class="col-style" :span="6"><el-input class="input-style" v-model="title" placeholder="标题" /></el-col>
         <el-col  class="col-style" :span="6"><el-input class="input-style" v-model="owner" placeholder="拥有者" /></el-col>
       <el-col  class="col-style" :span="6">
-        <el-button type="primary" @click="ToSearchUser" class="button-style">
+        <el-button type="primary" @click="ToSearchShare" class="button-style">
         <el-icon><Search /></el-icon>
             搜索分享
         </el-button>

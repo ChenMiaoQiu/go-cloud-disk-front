@@ -25,6 +25,7 @@ const onSubmit = async () => {
     const res = await LoginUser(form)
     useUserStore().setToken(res.token)
     useUserStore().setUser(res)
+    
   } catch (error) {
     ElMessageBox.alert('请输入正确密码和账户', '错误!')
     isLoding.value = false
